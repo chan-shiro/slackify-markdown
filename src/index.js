@@ -7,7 +7,7 @@ const { collectDefinitions, removeDefinitions } = require("./definitions");
 const createSlackifyOptions = require("./slackify");
 const createChatworkifyOptions = require("./chatworkify");
 
-module.exports.chatworkifyMarkdown = (markdown, options) => {
+module.exports.chatworkify = (markdown, options) => {
   const definitions = {};
 
   const slackifyOptions = createChatworkifyOptions(definitions);
@@ -26,7 +26,7 @@ module.exports.chatworkifyMarkdown = (markdown, options) => {
   );
 };
 
-module.exports.slackifyMarkdown = (markdown, options) => {
+module.exports.slackify = (markdown, options) => {
   const definitions = {};
 
   const slackifyOptions = createSlackifyOptions(definitions);
