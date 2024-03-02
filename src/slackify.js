@@ -78,7 +78,7 @@ const createHandlers = (definitions) => ({
     const value = phrasing(node, context, { before: marker, after: marker });
     exit();
 
-    return wrap(value, "", marker);
+    return wrap(value, marker);
   },
 
   listItem: (...args) => defaultHandlers.listItem(...args).replace(/^\*/, "•"),
