@@ -71,14 +71,14 @@ const createHandlers = (definitions) => ({
     return wrap(value, zeroWidthSpace, marker);
   },
 
-  inlineCode: (node, _parent, context) => {
+  inlineCode(node, _parent, context) {
     const marker = "`";
 
     const exit = context.enter("inlineCode");
-    const value = phrasing(node, context, { before: marker, after: marker });
+    const value = node.value;
     exit();
 
-    return wrap(value, marker);
+    return wrap(value, zeroWidthSpace, marker);
   },
 
   listItem: (...args) => defaultHandlers.listItem(...args).replace(/^\*/, "•"),
