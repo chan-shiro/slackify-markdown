@@ -1,4 +1,4 @@
-const { chatworkifyMarkdown, slackifyMarkdown } = require("./src/index");
+const { chatworkify, slackify } = require("./src/index");
 
-module.exports.chatworkifyMarkdown = chatworkifyMarkdown;
-module.exports.slackifyMarkdown = slackifyMarkdown;
+module.exports.chatworkify = chatworkify;
+module.exports.slackify = slackify;
