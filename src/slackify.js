@@ -82,7 +82,7 @@ const createHandlers = (definitions) => ({
     return wrap(content, "```", "\n");
   },
 
-  inlineCode(node, _parent, context) {
+  inlineCode: (node, _parent, context) => {
     const marker = "`";
     const exit = context.enter("inlineCode");
     const value = phrasing(node, context, { before: marker, after: marker });
