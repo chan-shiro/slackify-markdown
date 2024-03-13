@@ -21,7 +21,7 @@ const createHandlers = (definitions) => ({
     const value = phrasing(node, context, { before: marker, after: marker });
     exit();
 
-    return `== ${value} ==`;
+    return `📍 ${value} 📍`;
   },
 
   strong: (node, _parent, context) => {
@@ -41,7 +41,7 @@ const createHandlers = (definitions) => ({
     const value = phrasing(node, context, { before: marker, after: marker });
     exit();
 
-    return "~" + value + "~";
+    return " ❌" + value + "❌ ";
   },
 
   emphasis: (node, _parent, context) => {
@@ -62,7 +62,7 @@ const createHandlers = (definitions) => ({
     return `${value}`;
   },
 
-  listItem: (...args) => defaultHandlers.listItem(...args).replace(/^\*/, "•"),
+  listItem: (...args) => defaultHandlers.listItem(...args).replace(/^\*/, "✔️"),
 
   code(node, _parent, context) {
     const exit = context.enter("code");

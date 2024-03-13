@@ -10,7 +10,7 @@ test("Escaped text", () => {
 
 test("Headings", () => {
   const mrkdown = "# heading 1\n## heading 2\n### heading 3";
-  const chatwork = "== heading 1 ==\n\n== heading 2 ==\n\n== heading 3 ==\n";
+  const chatwork = "📍 heading 1 📍\n\n📍 heading 2 📍\n\n📍 heading 3 📍\n";
   expect(lineworksify(mrkdown)).toBe(chatwork);
 });
 
@@ -28,13 +28,13 @@ test("Italic", () => {
 
 test("Strike", () => {
   const mrkdown = "~~strike text~~";
-  const chatwork = `~strike text~\n`;
+  const chatwork = ` ❌strike text❌ \n`;
   expect(lineworksify(mrkdown)).toBe(chatwork);
 });
 
 test("Unordered list", () => {
   const mrkdown = "* list\n* list\n* list";
-  const chatwork = "•   list\n•   list\n•   list\n";
+  const chatwork = "✔️   list\n✔️   list\n✔️   list\n";
   expect(lineworksify(mrkdown)).toBe(chatwork);
 });
 
