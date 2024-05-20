@@ -120,7 +120,8 @@ const createHandlers = (definitions) => ({
   image: (node, _parent, context) => {
     const exit = context.enter("image");
     const text = node.alt || node.title;
-    const url = encodeURI(node.url);
+    // const url = encodeURI(node.url);
+    const url = node.url;
     exit();
 
     if (!isURL(url)) return text || url;
