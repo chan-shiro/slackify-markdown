@@ -9,10 +9,11 @@ const zeroWidthSpace = String.fromCharCode(0x200b);
 const escapeSpecials = (text) => {
   const escaped = text
     .replace("&", "&amp;")
-    .replace(/<([^@]|$)/g, (_, m) => `&lt;${m}`)
+    .replace(/<([^@#]|$)/g, (_, m) => `&lt;${m}`)
     .replace(/^(.*)>/g, (_, m) => {
       const isEndOfUserMention = Boolean(m.match(/<@[A-Z0-9]+$/));
-      if (isEndOfUserMention) {
+      const isChannelReference = Boolean(m.match(/<#\w+$/));
+      if (isEndOfUserMention || isChannelReference) {
         return `${m}>`;
       }
       return `${m}&gt;`;
@@ -94,12 +95,22 @@ const createHandlers = (definitions) => ({
 
   link: (node, _parent, context) => {
     const exit = context.enter("link");
-    const text =
+    let text =
       phrasing(node, context, { before: "|", after: ">" }) || node.title;
-    const url = isPotentiallyEncoded(node.url) ? node.url : encodeURI(node.url);
+    let url = isPotentiallyEncoded(node.url) ? node.url : encodeURI(node.url);
     exit();
 
-    if (!isURL(url)) return text || url;
+    if (!isURL(url)) {
+      // URLが無効の場合、`text` に '|' が含まれるか確認し、URLとテキストを分割
+      // <url|text> が渡された場合　url = 'url|text'　となり　Linkが適用されないため
+      const { url: extractedUrl, text: extractedText } = extractUrlAndText(text, url);
+      if (isURL(extractedUrl)) {
+        url = extractedUrl;
+        text = extractedText;
+      } else {
+        return text || url;
+      }
+    }
 
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
@@ -166,5 +177,20 @@ const createOptions = (definitions) => ({
   bullet: "*",
   handlers: createHandlers(definitions),
 });
+
+/**
+ * 入力テキストを分割し、URLとテキストを抽出する関数。
+ *
+ * @param {string} input `url|text`
+ * @returns {{ url: string, text: string }} 
+ * 
+ */
+const extractUrlAndText = (text, url) => {
+  if (text.includes("|")) {
+    const [urlPart, textPart] = text.split("|");
+    return { url: urlPart, text: textPart };
+  }
+  return { url: url, text: text };
+};
 
 module.exports = createOptions;

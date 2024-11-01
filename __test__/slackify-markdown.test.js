@@ -137,6 +137,18 @@ test("Link is already encoded", () => {
   expect(slackify(mrkdown)).toBe(slack);
 });
 
+test("Link is already slack style", () => {
+  const mrkdown = "<http://atlassian.com|Atlassian>";
+  const slack = "<http://atlassian.com|Atlassian>\n";
+  expect(slackify(mrkdown)).toBe(slack);
+});
+
+test("String contains '|' but is not a valid link", () => {
+  const mrkdown = "<Atlassian|Atlassian>";
+  const slack = "&lt;Atlassian|Atlassian&gt;\n";
+  expect(slackify(mrkdown)).toBe(slack);
+});
+
 test("Link in reference style with invalid definition", () => {
   const mrkdown = "[Atlassian][test]\n\n[test]: /atlassian";
   const slack = "Atlassian\n";
@@ -248,7 +260,12 @@ test("Code block with deprecated language declaration", () => {
 test("User mention", () => {
   const mrkdown = "<@UPXGB22A2>";
   const slack = "<@UPXGB22A2>\n";
+  expect(slackify(mrkdown)).toBe(slack);
+});
 
+test("Channels link", () => {
+  const mrkdown = "<#UPXGB22A2>";
+  const slack = "<#UPXGB22A2>\n";
   expect(slackify(mrkdown)).toBe(slack);
 });
 
